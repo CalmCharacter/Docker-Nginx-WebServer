@@ -1,0 +1,82 @@
+Docker Commands for this project:
+
+Goal: 1. Docker images
+      2. Docker config on ubuntu
+      3. Installing NGINX
+      4. Customize NGINX
+      5. Hands-on experience
+      6. serving own web app
+      
+on ubuntu terminal type touch dockerfile to create an empty file name "Dockerfile":
+touch "Dockerfile"
+
+then type code . to open vscode app:
+code .
+
+the on vscode type this:
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y nginx
+
+EXPOSE 8080	//this expose port 8080 on container allowing to accept incoming request 
+CMD ["nginx", "-g", "daemon-off;"] //when NGINX webserver is running, this command is executed inorder to ensure that Nginx runs in the foreground, keeping the container alive and operational.
+
+Open the terminal in the vscode and run:
+dockebuild -t my_nginx_image .
+
+so if you want to check your save docker images, you can type in your ubuntu terminal or vscode terminal"
+docker images
+
+now to create a docker container using this docker image we create we can type it in our ubuntu terminal or in the vscode terminal:
+docker run -p 8080:8080 --name containerNginx my_nginx_image
+//this command means if my machine or my computer is requesting on port 8080 then it will be forwarded to port 8080 of my docker container.
+
+as we can see, when we type localhost:8080 on our website, the nginx is accessed.
+
+now lets stop the running container by doing:
+ctrl+c in our ubuntu terminal
+
+so lets create a html basic file to our nginx server. so just go to your file directory and create one:
+mkdir "my app"
+
+go to your new created file "my app" by using cd command:
+cd "my app"
+
+now lets create an empty html file by typing in the command line:
+touch index.html
+
+then go to index.html in the vscode, then run simple html Doctype by typing "!":
+!
+
+then edit your html according to what you want. and after done making your html file, we need to go to Dockerfile code edit and write this script below RUN apt-get install:
+COPY MyApp /var/www/html
+//this instruction is used to copy files or directories from our computer into the Docker file.
+//MyApp is the source directory
+// //var//www/html is the destination path inside docker image. in this case the files from "my app" will be copied to the /var/www/html directory inside docker image.
+
+//var and www, are just directory names commonly used in web server configurations. and this script is kinda a default one that needs to remember.
+
+after go to your terminal, and go back 1 folder behind by typing in the terminal:
+cd ..
+
+create docker image again because we put new script again in our vscode dockerfile code editor:
+docker build -t my_nginx_image .
+
+then create the container by mapping the port:
+docker run -p 8080:80 --name container3Nginx my_nginx_image
+
+after running, you can go to website and type:
+localhost:8080
+
+and it will display your HTML file created
+
+
+
+
+
+
+
+
+
+
